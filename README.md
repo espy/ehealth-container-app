@@ -40,6 +40,7 @@ This step is only possible on Windows, unless you want to wrap Reshacker in Wine
 2. Download [Resource Hacker](http://www.angusj.com/resourcehacker/reshack_setup.exe).
 3. Run Resource Hacker and drag the `.exe` onto it.
 4. In Resource Hacker, click `action -> replace icon`, and select the `ehealth_logo.ico` file from the `app` folder.
+5. Save and close.
 
 ### Linux
 
@@ -51,11 +52,11 @@ Apart from implementing AppCache, the call center needed a few modifications so 
 
 ### 1. Use native file saving dialog
 
-The way `ng-csv` saves files fails silently in Atom Shell, letting us use `ng-click` to call a fallback function that checks whether we're in Atom Shell and then uses the native file API to save the CSV. See [the source](https://github.com/eHealthAfrica/sl-ebola-call-admin/blob/atom/app/scripts/controllers/calls.js#L313) for details.
+The way `ng-csv` saves files fails silently in Atom Shell, letting us use `ng-click` to call a fallback function that checks whether we're in Atom Shell and then uses the native file API to save the CSV. See [the source](https://github.com/eHealthAfrica/sl-ebola-call-admin/blob/atom/app/scripts/controllers/calls.js#L313) for details. Docs for this feature [are here](https://github.com/atom/atom-shell/blob/master/docs/api/dialog.md).
 
 ### 2. Prevent print feature from opening a new window
 
-I haven't found a way to make Atom Shell open a new Window with the same auth credentials, so clicking on `print` would always open a new login window. My solution was to open the print view in the same window, and add an explicit `Print this window` button on that that would call `window.print()`, because `CMD-P`/printing via menu doesn't work in Atom Shell at the moment. This is super simple, see [the view](https://github.com/eHealthAfrica/sl-ebola-call-admin/blob/atom/app%2Fviews%2Fcalls-print.html#L17) and [the controller](https://github.com/eHealthAfrica/sl-ebola-call-admin/blob/atom/app%2Fscripts%2Fcontrollers%2Fcalls-print.js#L56);
+I haven't found a way to make Atom Shell open a new window with the same session, so clicking on `print` would always open a new login window. My solution was to open the print view in the same window, and add an explicit `Print this window` button on that that would call `window.print()`, because `CMD-P`/printing via menu doesn't work in Atom Shell at the moment. This is super simple, see [the view](https://github.com/eHealthAfrica/sl-ebola-call-admin/blob/atom/app%2Fviews%2Fcalls-print.html#L17) and [the controller](https://github.com/eHealthAfrica/sl-ebola-call-admin/blob/atom/app%2Fscripts%2Fcontrollers%2Fcalls-print.js#L56);
 
 ### 3. Make moment.js work
 
