@@ -25,7 +25,7 @@ The folders, packages, executables etc. will still be called `Atom` and will use
 ### OS X
 
 1. Right-click `build/darwin/atom-shell/atom.app` and show package contents.
-2. Replace the file `/Resources/atom.icns with this one: `app/ehealth_logo.icns`.
+2. Replace the file `/Resources/atom.icns` with this one: `app/ehealth_logo.icns`.
 3. Inside `info.plist` find `<key>CFBundleName</key>` and change the following line to `<string>eHealth - Call Center</string>`.
 4. In the same file, find `<key>CFBundleIconFile</key>` and change the following line to `<string>ehealth_logo.icns</string>`.
 5. Rename the package from step 1 to whatever app it is you're wrapping.
