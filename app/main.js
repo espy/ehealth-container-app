@@ -18,10 +18,23 @@ app.on('window-all-closed', function() {
 // initialization and ready for creating browser windows.
 app.on('ready', function() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600});
+  mainWindow = new BrowserWindow({
+    width: 1024,
+    height: 768,
+    icon: 'ehealth_logo.png',
+    title: 'eHealth Africa - Call Center'
+  });
 
   // and load the index.html of the app.
-  mainWindow.loadUrl('file://' + __dirname + '/index.html');
+
+  // local dev
+  //mainWindow.loadUrl('http://localhost:9000');
+
+  // network dev
+  mainWindow.loadUrl('http://192.168.3.170:9000');
+
+  // remote dev
+  //mainWindow.loadUrl('http://dev.sl-call-admin.eocng.org');
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {

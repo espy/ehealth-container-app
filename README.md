@@ -1,30 +1,58 @@
-# atom-shell example app
+# Ehealth Container Application
 
-This is an example atom-shell app based off these instructions:
-- https://github.com/atom/atom-shell/blob/master/docs/tutorial/quick-start.md
+This is an atom-shell app that acts as a thin wrapper for [the Atom branch of the SL call center app](https://github.com/eHealthAfrica/sl-ebola-call-admin/tree/atom).
 
-To run you should be able to do the following:
+## Building the Wrapper
 
-`./run.sh`
+````
+    $ npm install
+    $ grunt
 
-OR manually:
+````
 
-Install grunt if you haven't already
+This will write fresh OS X, Windows32 and Linux32 builds into the `build` directory.
 
-```
-npm install -g grunt-cli
-```
+## Making the builds look good
 
-Then run the following to download version 0.12.2 of atom-shell
-```
-cd ./build
-npm install
-grunt download-atom-shell
-```
+The folders, packages, executables etc. will still be called `Atom` and will use the Atom logo. We don't want that. Here's how to mod them:
 
-Then you should be able to run the app:
+### OS X
 
-```
-./build/atom-shell/Atom.app/Contents/MacOS/Atom ./hello-app
-```
+1. Right-click `build/darwin/atom-shell/atom.app` and show package contents.
+2. Replace the file `/Resources/atom.icns with this one: `app/ehealth_logo.icns`.
+3. Inside `info.plist` find `<key>CFBundleName</key>` and change the following line to `<string>eHealth - Call Center</string>`.
+4. In the same file, find `<key>CFBundleIconFile</key>` and change the following line to `<string>ehealth_logo.icns</string>`.
+5. Rename the package from step 1 to whatever app it is you're wrapping.
+
+On OS X, you also have the option of changing the wrapper target in the built app, so you don't have to build and modify the wrapper for each target. To do this, open the package, and inside that the file `Contents/Resources/App/main.js`. You'll find the build targets from line 30 onwards.
+
+### Windows
+
+This step is only possible on Windows, unless you want to wrap Reshacker in Wine.
+
+1. Rename `build/win32/atom-shell/atom.exe` to whatever app it is you're wrapping.
+2. Download [Resource Hacker](http://www.angusj.com/resourcehacker/reshack_setup.exe).
+3. Run Resource Hacker and drag the `.exe` onto it.
+4. In Resource Hacker, click `action -> replace icon`, and select the `ehealth_logo.ico` file from the `app` folder.
+
+### Linux
+
+I have no idea.
+
+## Making Apps Wrappable
+
+The call center needed a few modifications so it would run inside Atom Shell:
+
+### 1. Use native file saving dialog
+
+The way `ng-csv` saves files fails silently in Atom Shell, letting us use `ng-click` to call a fallback function that checks whether we're in Atom Shell and then uses the native file API to save the CSV. See [the source](https://github.com/eHealthAfrica/sl-ebola-call-admin/blob/atom/app/scripts/controllers/calls.js#L313) for details.
+
+### 2. Prevent print feature from opening a new window
+
+I haven't found a way to make Atom Shell open a new Window with the same auth credentials, so clicking on `print` would always open a new login window. My solution was to open the print view in the same window, and add an explicit `Print this window` button on that that would call `window.print()`, because `CMD-P`/printing via menu doesn't work in Atom Shell at the moment. This is super simple, see [the view](https://github.com/eHealthAfrica/sl-ebola-call-admin/blob/atom/app%2Fviews%2Fcalls-print.html#L17) and [the controller](https://github.com/eHealthAfrica/sl-ebola-call-admin/blob/atom/app%2Fscripts%2Fcontrollers%2Fcalls-print.js#L56);
+
+### 3. Make moment.js work
+
+Moment.js is problematic because it works in both the browser and the node environment, so it will check where it is and then expose itself accordingly. Sadly, Atom Shell is a node environment, so Moment.js will expose itself as a module, and not as a browser global ([see here for an explanation](https://github.com/rogerwang/node-webkit/issues/2075)). So I [forked moment.js](https://github.com/espy/moment/blob/develop/moment.js#L2846), removed that check so it is forced to expose a global, and everything's peachy.
+
 

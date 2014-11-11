@@ -1,2 +1,4 @@
-build/atom-shell
-build/node_modules
+node_modules
+build
+cache
+.DS_Store
