@@ -1,20 +1,26 @@
 # Ehealth Container Application
 
-This is an atom-shell app that acts as a thin wrapper for [the Atom branch of the SL call center app](https://github.com/eHealthAfrica/sl-ebola-call-admin/tree/atom).
+This is an atom-shell app that acts as a thin wrapper for [the Atom branch of the SL call center app](https://github.com/eHealthAfrica/sl-ebola-call-admin/tree/atom) (details on that below), it basically just opens a URL. But if that URL points to an app that uses AppCache and local data storage (PouchDB for example), you now have an _offline-capable, auto-updating cross-platform application_. Yay!
+
+So, `app/main.js`, line 30 onwards, defines which URL gets wrapped.
+
+## NOTE: You may not have to build the wrapper to change the URL
+
+- On __OS X__, you can just browse the contents of the built package, find `Contents/Resources/App/main.js` and modify the target.
+- On __Linux__, it's even easier, just open `resources/App/main.js` directly.
+- On __Windows__, you're out of luck, sorry.
 
 ## Building the Wrapper
 
-````
     $ npm install
     $ grunt
 
-````
 
 This will write fresh OS X, Windows32 and Linux32 builds into the `build` directory.
 
 ## Making the builds look good
 
-The folders, packages, executables etc. will still be called `Atom` and will use the Atom logo. We don't want that. Here's how to mod them:
+The folders, packages, executables etc. will still be called `Atom` and will use the Atom logo. We don't want that. Here's how to mod them (sorry, this is terrible/impossible to automate):
 
 ### OS X
 
@@ -41,7 +47,7 @@ I have no idea.
 
 ## Making Apps Wrappable
 
-The call center needed a few modifications so it would run inside Atom Shell:
+Apart from implementing AppCache, the call center needed a few modifications so it would run inside Atom Shell:
 
 ### 1. Use native file saving dialog
 
@@ -55,4 +61,6 @@ I haven't found a way to make Atom Shell open a new Window with the same auth cr
 
 Moment.js is problematic because it works in both the browser and the node environment, so it will check where it is and then expose itself accordingly. Sadly, Atom Shell is a node environment, so Moment.js will expose itself as a module, and not as a browser global ([see here for an explanation](https://github.com/rogerwang/node-webkit/issues/2075)). So I [forked moment.js](https://github.com/espy/moment/blob/develop/moment.js#L2846), removed that check so it is forced to expose a global, and everything's peachy.
 
+Enjoy!
 
+<3
