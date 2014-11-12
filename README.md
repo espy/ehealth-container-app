@@ -62,6 +62,16 @@ I haven't found a way to make Atom Shell open a new window with the same session
 
 Moment.js is problematic because it works in both the browser and the node environment, so it will check where it is and then expose itself accordingly. Sadly, Atom Shell is a node environment, so Moment.js will expose itself as a module, and not as a browser global ([see here for an explanation](https://github.com/rogerwang/node-webkit/issues/2075)). So I [forked moment.js](https://github.com/espy/moment/blob/develop/moment.js#L2846), removed that check so it is forced to expose a global, and everything's peachy.
 
+## Troubleshooting
+
+### PouchDB 405 Error
+
+You've got conflicting local databases. Delete them here:
+
+    - __ on OS X:__ ~/Library/Application Support/MyAppName (something like `\Users\username\Library\Application Support\Atom`)
+    - __ on Windows:__ %APPDATA%\MyAppName (something like `C:\Users\Username\AppData\Roaming\Atom-Shell)
+    - __ on Linux:__ ~/.config/MyAppName
+
 Enjoy!
 
 <3

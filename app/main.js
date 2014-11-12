@@ -31,10 +31,10 @@ app.on('ready', function() {
   //mainWindow.loadUrl('http://localhost:9000');
 
   // network dev
-  mainWindow.loadUrl('http://192.168.3.170:9000');
+  //mainWindow.loadUrl('http://192.168.3.170:9000');
 
   // remote dev
-  //mainWindow.loadUrl('http://dev.sl-call-admin.eocng.org');
+  mainWindow.loadUrl('http://atom.alexfeyerke.com');
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
