@@ -1,5 +1,7 @@
 # Ehealth Container Application
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/espy/ehealth-container-app.svg)](https://greenkeeper.io/)
+
 This is an atom-shell app that acts as a thin wrapper for [the Atom branch of the SL call center app](https://github.com/eHealthAfrica/sl-ebola-call-admin/tree/atom) (details on that below), it basically just opens a URL. But if that URL points to an app that uses AppCache and local data storage (PouchDB for example), you now have an _offline-capable, auto-updating cross-platform application_. Yay!
 
 So, `app/main.js`, line 30 onwards, defines which URL gets wrapped.
